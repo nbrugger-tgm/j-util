@@ -9,7 +9,7 @@ public class FloatInt {
 		boolean negative = i < 0;
 		if (negative)
 			i *= -1;
-		byte cent = (byte) (i % base);
+		long cent = i % base;
 		long eur = (i - cent) / base;
 		return (negative ? "-" : "") + eur + "." + cent;
 	}
