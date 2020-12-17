@@ -1,12 +1,12 @@
 # Backed Collections
 
-[![GitHub issues by-label](https://img.shields.io/github/issues/nbrugger-tgm/j-util/bug)](https://github.com/{{repo}}/issues?q=is%3Aopen+is%3Aissue+label%3Abug) [![GitHub closed issues by-label](https://img.shields.io/github/issues-closed/{{repo}}/bug)](https://github.com/nbrugger-tgm/backed-collections/issues?q=is%3Aclosed+is%3Aissue+label%3Abug)
+[![GitHub issues by-label](https://img.shields.io/github/issues/nbrugger-tgm/j-util/bug)](https://github.com/nbrugger-tgm/j-util/issues?q=is%3Aopen+is%3Aissue+label%3Abug) [![GitHub closed issues by-label](https://img.shields.io/github/issues-closed/{{repo}}/bug)](https://github.com/nbrugger-tgm/backed-collections/issues?q=is%3Aclosed+is%3Aissue+label%3Abug)
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/nbrugger-tgm/j-util?label=latest%20stable)]
 (github.com/nbrugger-tgm/j-util/releases/latest)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/nbrugger-tgm/j-util/latest)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/nbrugger-tgm/j-util?include_prereleases&label=latest)]
-(github.com/nbrugger-tgm/backed-collections/releases)
+(github.com/nbrugger-tgm/j-util/releases)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/nbrugger-tgm/j-util)![GitHub Workflow Status](https://img.shields.io/github/workflow/status/{{repo}}/Java%20JUnit%20Test%20with%20Gradle)<br>
 
