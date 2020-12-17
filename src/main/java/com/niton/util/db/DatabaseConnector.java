@@ -135,7 +135,7 @@ public class DatabaseConnector<C> {
 			return;
 		}
 
-		docker = DockerUtil.detectDocker();
+		docker = DockerUtil.isDocker();
 		Logging.log("-------------[" + (docker ? "DOCKER" : "NORMAL") + " MODE]--------------");
 
 		keepAlive = new KeepAliveService(host, userName, password, this);

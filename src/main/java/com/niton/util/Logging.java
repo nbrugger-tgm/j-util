@@ -2,14 +2,14 @@ package com.niton.util;
 
 import com.niton.util.config.Config;
 import com.niton.util.config.UtilConfig;
-import com.niton.media.filesystem.Directory;
-import com.niton.media.filesystem.NFile;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ import static com.niton.util.Logging.Level.*;
 public class Logging {
 	private static Path               logFolder;
 	private static String             module;
-	private static char[]             idChars = "abcdefghijklmnorstuxz234879".toCharArray();
+	private static char[]             idChars = "abcdefghijklmnorstuxz123456789".toCharArray();
 	private static LinkedList<String> usedIDs = new LinkedList<>();
 	private static boolean            inited = false;
 	private static boolean            activated = false;
@@ -32,7 +32,7 @@ public class Logging {
 			return;
 		}
 		Logging.module = module;
-		boolean docker = DockerUtil.detectDocker();
+		boolean docker = DockerUtil.isDocker();
 		if(docker) {
 			logFolder = Paths.get("/app/logs");
 		}else {
@@ -49,7 +49,7 @@ public class Logging {
 		if(!inited || !activated){
 			return;
 		}
-		UtilConfig.Logging cfg = Config.cfg.logging;
+		UtilConfig.Logging cfg = Config.utilCfg.logging;
 
 		if(level == null)
 			level = INFO;
@@ -67,11 +67,12 @@ public class Logging {
 		if(Config.getFileLoggingLevel(context).index <= level.index){
 			String out = buildMsg(cfg, true, context, message, loggingClass, level);
 			try {
-				NFile file = logFolder.addAndSaveDir(getDay()).addFile(context.name, "log");
-				if(!file.exisits()) {
-					file.save();
+				Path file = logFolder.resolve(getDay()).resolve(context.name+ ".log");
+				if(!Files.exists(file)) {
+					Files.createDirectories(file.getParent());
+					Files.createFile(file);
 				}
-				file.addText(out);
+				Files.write(file, out.getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
 				System.err.println("[LOGGING-ERROR]");
 				e.printStackTrace();
@@ -81,8 +82,8 @@ public class Logging {
 	}
 
 	private static String buildMsg(UtilConfig.Logging cfg, boolean file, LogContext context, String message, Class<?> loggingClass, Level level) {
-		String out = new String();
-		if(file ? cfg.options.file.date : cfg.options.console.date || file ? cfg.options.file.time : cfg.options.console.time)
+		String out = "";
+		if((file ? cfg.options.file.date : cfg.options.console.date) || (file ? cfg.options.file.time : cfg.options.console.time))
 			out += getDate(file);
 		if(file ? cfg.options.file.module : cfg.options.console.module)
 			out += "{"+module+"} ";
@@ -120,15 +121,15 @@ public class Logging {
 				min = d.get(Calendar.MINUTE),
 				s = d.get(Calendar.SECOND);
 
-		boolean time = file ? Config.cfg.logging.options.file.time : Config.cfg.logging.options.console.time;
-		boolean date =file ? Config.cfg.logging.options.file.date : Config.cfg.logging.options.console.date;
+		boolean time = file ? Config.utilCfg.logging.options.file.time : Config.utilCfg.logging.options.console.time;
+		boolean date =file ? Config.utilCfg.logging.options.file.date : Config.utilCfg.logging.options.console.date;
 		String out = "(";
 		if(date)
 			out += (day<10 ? "0" : "")+day+"."+(m<10 ? "0" : "")+m+"."+(y<10 ? "0" : "")+y;
 		if(date && time)
 			out += " ";
 		if(time)
-			out += (hr<10 ? "0" : "")+hr+":"+(min<10 ? "0" : "")+min+((file ? Config.cfg.logging.options.file.seconds : Config.cfg.logging.options.console.seconds) ? ":"+(s<10 ? "0"+s : s) : "");
+			out += (hr<10 ? "0" : "")+hr+":"+(min<10 ? "0" : "")+min+((file ? Config.utilCfg.logging.options.file.seconds : Config.utilCfg.logging.options.console.seconds) ? ":"+(s<10 ? "0"+s : s) : "");
 		out += ")";
 		return(out);
 	}
@@ -152,11 +153,19 @@ public class Logging {
 	public static void log(Level l,Exception e) {
 		if(!inited)
 			return;
-		log(l, "An "+e.getClass().getSimpleName()+" occured!");
+		log(l, "An "+e.getClass().getTypeName()+" occured!");
 		try {
 			String id = newID();
-			NFile exceptionFile = logFolder.addAndSaveDir("exceptions").addAndSaveFile(id, "log");
-			PrintWriter fileStream = new PrintWriter(exceptionFile.getFile());
+			Path exceptionFile;
+			do {
+				exceptionFile = logFolder.resolve("exceptions").resolve(id + ".log");
+
+			}while(Files.exists(exceptionFile));
+
+			Files.createDirectories(exceptionFile.getParent());
+			Files.createFile(exceptionFile);
+
+			PrintWriter fileStream = new PrintWriter(exceptionFile.toFile());
 			e.printStackTrace(fileStream);
 			fileStream.flush();
 			fileStream.close();
@@ -174,7 +183,7 @@ public class Logging {
 		StringBuilder bld;
 		do{
 			bld = new StringBuilder();
-			for (int i = 0; i <Config.cfg.logging.exception_id_size;i++){
+			for (int i = 0; i <Config.utilCfg.logging.exception_id_size; i++){
 				bld.append(idChars[r.nextInt(idChars.length)]);
 			}
 		}while (usedIDs.contains(bld.toString()));

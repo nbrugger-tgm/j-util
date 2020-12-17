@@ -6,7 +6,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class Time {
+public class TimeUtil {
     public static LocalDate toLocalDateTime(Calendar calendar) {
         if (calendar == null) {
             return null;

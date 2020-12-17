@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class DockerUtil {
-	private static boolean scaned = false;
+	private static boolean scanned = false;
 	private static boolean res;
-	public static boolean detectDocker() {
+	public static boolean isDocker() {
 		Logging.log(Logging.Level.INFO,"Scan if process is running in docker ...");
-		if (scaned)
+		if (scanned)
 			return res;
-		scaned = true;
+		scanned = true;
 		try {
 			Process p = Runtime.getRuntime().exec("cat /proc/1/cgroup");
 			if (parseResult(p)) return res=true;

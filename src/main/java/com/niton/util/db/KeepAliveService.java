@@ -1,6 +1,5 @@
 package com.niton.util.db;
 
-import com.niton.util.Database;
 import com.niton.util.Logging;
 import com.niton.util.config.Config;
 
@@ -51,9 +50,8 @@ public class KeepAliveService extends Thread {
                 Logging.log(Logging.Level.EXCEPTION,e);
             }
             try {
-                Thread.sleep(Config.cfg.general.db_check_interval *1000);
-            } catch (InterruptedException e) {
-            }
+                Thread.sleep(Config.utilCfg.db.auto_refresh * 1000L);
+            } catch (InterruptedException e) {}
         }
     }
     public void end(){

@@ -4,12 +4,6 @@ package com.niton.util;
  * A utility to enable float conversion to long (use case: storing precise coma values)
  */
 public class FloatInt {
-	/**
-	 * A 
-	 * @param i
-	 * @param percition
-	 * @return
-	 */
 	public static String formatAsFloat(long i, int percition) {
 		int base = (int) Math.pow(10, percition);
 		boolean negative = i < 0;
