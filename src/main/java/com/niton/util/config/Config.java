@@ -14,7 +14,9 @@ public class Config {
 			Logging.log(Logging.Level.WARNING,"Configuration files are only useable with docker! Fall back to default config");
 			return;
 		}
-		utilCfg = new UtilConfig(cfg = ConfigFactory.parseFile(new File(path)));
+		cfg = ConfigFactory.parseFile(new File(path));
+		cfg = ConfigFactory.load();
+		utilCfg = new UtilConfig(cfg);
 	}
 
 	public static Logging.Level getConsoleLoggingLevel() {
