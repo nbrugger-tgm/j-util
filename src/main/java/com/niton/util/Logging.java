@@ -18,12 +18,12 @@ import java.util.Random;
 import static com.niton.util.Logging.Level.*;
 
 public class Logging {
-	private static Path               logFolder;
-	private static String             module;
-	private static char[]             idChars = "abcdefghijklmnorstuxz123456789".toCharArray();
-	private static LinkedList<String> usedIDs = new LinkedList<>();
-	private static boolean            inited = false;
-	private static boolean            activated = false;
+	private static       Path               logFolder;
+	private static       String             module;
+	private static final char[]             idChars   = "abcdefghijklmnorstuxz123456789".toCharArray();
+	private static final LinkedList<String> usedIDs   = new LinkedList<>();
+	private static       boolean            inited    = false;
+	private static       boolean            activated = false;
 
 
 	public static void init(String module){
