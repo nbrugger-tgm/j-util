@@ -10,12 +10,9 @@ public class Config {
 	public static UtilConfig                 utilCfg;
 	public static com.typesafe.config.Config cfg;
 	public static void init(String path){
-		if(!DockerUtil.isDocker()){
-			Logging.log(Logging.Level.WARNING,"Configuration files are only useable with docker! Fall back to default config");
-			return;
-		}
 		cfg = ConfigFactory.parseFile(new File(path));
-		cfg = ConfigFactory.load();
+		if(cfg == null)
+			cfg = ConfigFactory.load();
 		utilCfg = new UtilConfig(cfg);
 	}
 

@@ -26,18 +26,15 @@ public class Logging {
 	private static       boolean            activated = false;
 
 
-	public static void init(String module){
+	public static void init(String module,String path){
 		if(inited){
 			log(WARNING,Logging.class," init() methods are only allowed to be called once in a runtime");
 			return;
 		}
 		Logging.module = module;
-		boolean docker = DockerUtil.isDocker();
-		if(docker) {
-			logFolder = Paths.get("/app/logs");
-		}else {
-			log(WARNING, Logging.class, "File logging is only aviable in docker");
-		}
+
+		logFolder = Paths.get(path);
+
 		inited = true;
 	}
 	public static void activate(){
