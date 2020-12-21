@@ -20,7 +20,7 @@ jobs:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-      CC_TEST_REPORTER_ID: 09305c9ae31afe07fc5367676403943d7c60175c7b4f57cd534b295f44545630
+      CC_TEST_REPORTER_ID: 27a7432d1310c7a63ff7ca237a33175221d5218b4e1b3bf799f0fdbb89e6fea3
 
     steps:
       - checkout
