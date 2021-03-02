@@ -1,4 +1,4 @@
-# Backed Collections
+# Java Utilities
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/nbrugger-tgm/j-util/bug)](https://github.com/nbrugger-tgm/j-util/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 [![GitHub closed issues by-label](https://img.shields.io/github/issues-closed/nbrugger-tgm/j-util/bug)](https://github.com/nbrugger-tgm/j-util/issues?q=is%3Aclosed+is%3Aissue+label%3Abug)
